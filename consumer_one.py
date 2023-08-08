@@ -1,6 +1,7 @@
 from confluent_kafka import Consumer
 from mongoengine import connect, Document, fields
 import json
+import datetime
 
 consumer = Consumer({
     'bootstrap.servers': '127.0.0.1:9092',
@@ -31,12 +32,17 @@ while True:
     try:
         data = json.loads(msg.value())
         print('Received message: {}'.format(data))
+        
+        account_created_date = datetime.datetime.strptime(data['account_created_date'], '%Y-%m-%d %H:%M:%S')
+        threshold_date = datetime.datetime(2023, 1, 1)
+        threshold_balance = 90_000_000
 
-        EligibleCustomers.objects(user_id=data['user_id']).update_one(
-            upsert=True,
-            set__account_created_date=data['account_created_date'],
-            set__account_balance=data['account_balance']
-        )
+        if account_created_date > threshold_date and data['account_balance'] > threshold_balance:
+            EligibleCustomers.objects(user_id=data['user_id']).update_one(
+                upsert=True,
+                set__account_created_date=data['account_created_date'],
+                set__account_balance=data['account_balance']
+            )
     except Exception as e:
         print("Error processing message:", e)
 

@@ -34,7 +34,7 @@ def delivery_report(err, msg):
 
 def confluent_kafka_producer():
     producer = Producer(kafka_server)
-    for user_id in range(1, 11):
+    for user_id in range(1, 1001):
         record_key = user_id
         account_created_date = randomtimestamp(
             start_year=2020, end_year=2023, pattern="%Y-%m-%d %H:%M:%S")
