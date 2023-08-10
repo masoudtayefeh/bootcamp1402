@@ -1,0 +1,9 @@
+confluent-kafka==2.2.0
+Faker==13.15.0
+mysql==0.0.3
+mysql-connector-python==8.0.29
+mysqlclient==2.1.1
+protobuf==4.21.2
+python-dateutil==2.8.2
+randomtimestamp==2.2
+six==1.16.0
