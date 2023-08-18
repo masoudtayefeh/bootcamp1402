@@ -61,7 +61,7 @@ if __name__ == "__main__":
     query = value_df.writeStream \
         .foreachBatch(mongo_upsert.upsert_to_mongo) \
         .outputMode("update") \
-        .trigger(processingTime="3 second") \
+        .trigger(processingTime="3 seconds") \
         .start()
 
     query.awaitTermination()
